@@ -1,63 +1,93 @@
-'use client'
+"use client";
 import Image from "next/image";
-
-import styles from "./page.module.css";
 import { useEffect, useState } from "react";
 import { getProducts } from "./services/dummyJson";
-import { error } from "console";
-import { Button, Grid, Typography } from "@mui/material";
+import { Button, Grid, Typography, Card, CardContent, CardActions } from "@mui/material";
 import { cartStore } from "@/store/cart";
 import Link from "next/link";
 
-
-
 export default function Home() {
+  const [productList, setProductList] = useState<any>();
 
-  const [productList, setProductList ] = useState()
+  const fetch = () => {
+    getProducts()
+      .then((data) => {
+        console.log(data);
+        setProductList(data?.data);
+      })
+      .catch((error) => {
+        console.log("Error", error);
+      });
+  };
 
-  const fetch = ()=>{
+  const addToCart = cartStore((state: any) => state.updateCart);
 
-
-    getProducts().then((data)=>{
-      console.log(data)
-      setProductList(data?.data)
-    })
-    .catch((error)=>{
-      console.log("Error", error)
-    })
-  }
-
-  const addToCart = cartStore((state:any) => state.updateCart)
-  
   useEffect(() => {
-      fetch()
-  },[])
+    fetch();
+  }, []);
+
   return (
-    <Grid container >
+    <Grid container spacing={3} sx={{ p: 3 }}>
+      {productList?.products?.map((product: any) => (
+        <Grid item xs={12} sm={6} md={4} key={product?.id}>
+          <Card
+            sx={{
+              p: 2,
+              borderRadius: 3,
+              boxShadow: 3,
+              height: "100%",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+              transition: "0.3s",
+              "&:hover": { boxShadow: 6, transform: "scale(1.02)" },
+            }}
+          >
+            <CardContent>
+              <Link href={`/${product?.id}`} style={{ textDecoration: "none" }}>
+                <Typography
+                  variant="h6"
+                  fontWeight="bold"
+                  gutterBottom
+                  color="primary"
+                >
+                  {product.title}
+                </Typography>
+              </Link>
 
-      {productList?.products?.map((product)=>(
-        <Grid size={4} key={product?.id} my={2} border={1} spacing={1}>
-        <Link href={`${product?.id}`}>
-        <Typography>
-          {product.title}
-        </Typography>
-        </Link>
-        <Image src={product?.images[0]} alt="" width={100} height={100}></Image>
-         <Typography>
-          Precio: ${product.price}
-        </Typography>
-        <Grid>
-          <Button onClick={() =>{
-            console.log(product) 
-            addToCart(product)
-          }}>
-            Añadir
-          </Button>
+              <Image
+                src={product?.images[0]}
+                alt={product?.title}
+                width={200}
+                height={200}
+                style={{
+                  objectFit: "cover",
+                  borderRadius: "8px",
+                  margin: "0 auto",
+                }}
+              />
+
+              <Typography
+                variant="body1"
+                fontWeight="bold"
+                sx={{ mt: 2, textAlign: "center" }}
+              >
+                Precio: ${product.price}
+              </Typography>
+            </CardContent>
+
+            <CardActions sx={{ justifyContent: "center" }}>
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={() => addToCart(product)}
+              >
+                Añadir al carrito
+              </Button>
+            </CardActions>
+          </Card>
         </Grid>
-        </Grid>
-      
       ))}
-
     </Grid>
   );
 }
