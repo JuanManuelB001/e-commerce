@@ -10,6 +10,7 @@ import {
   CardContent,
   CardActions,
 } from "@mui/material";
+import Image from "next/image";
 
 export default function Page() {
   const cart = cartStore((state: any) => state.cart);
@@ -56,6 +57,19 @@ export default function Page() {
                       <Typography variant="h6" fontWeight="bold" gutterBottom>
                         {c.title}
                       </Typography>
+
+                      <Image
+                        src={c.images[0]}
+                        alt={c.title}
+                        width={200}
+                        height={200}
+                        style={{
+                          objectFit: "cover",
+                          borderRadius: "8px",
+                          margin: "0 auto",
+                        }}
+                      />
+
                       <Typography variant="body2" color="text.secondary">
                         Cantidad: {quantity}
                       </Typography>
@@ -90,7 +104,7 @@ export default function Page() {
           <Divider sx={{ my: 3 }} />
 
           <Typography variant="h5" align="right" fontWeight="bold">
-            Total: ${total}
+            Total: ${(Math.round(total)/ 100).toFixed(2)}
           </Typography>
         </Grid>
       ) : (
