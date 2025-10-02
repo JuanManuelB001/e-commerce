@@ -34,3 +34,6 @@ Para saber mas sobre el FrameWork  Next.js, da click en el siguiente Enlace:
 - [Next.js Documentation](https://nextjs.org/docs) - Pagina de aprendizaje respocto a  Next.js caracteristica y  API.
 - [Learn Next.js](https://nextjs.org/learn) - tutoriales interactivos de next.js.
 
+## Configuración del DummyJson para el .env
+
+NEXT_PUBLIC_DUMMYJSON_URL=https://dummyjson.com
