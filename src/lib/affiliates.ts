@@ -1,9 +1,5 @@
 import { AxiosInstance } from "@/utils/axiosInstance"
 
-export const getAffiliates = () => {
-    return AxiosInstance.get('/affiliates')
-}
-
 export const addAffiliate = (data: any) => {
     return AxiosInstance.post('/affiliates', data)
 }

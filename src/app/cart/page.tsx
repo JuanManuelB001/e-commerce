@@ -25,6 +25,7 @@ export default function Page() {
   );
 
   return (
+    
     <Grid container direction="column" spacing={3} sx={{ p: 3 }}>
       {cart.length > 0 ? (
         <Grid item>
@@ -104,7 +105,7 @@ export default function Page() {
           <Divider sx={{ my: 3 }} />
 
           <Typography variant="h5" align="right" fontWeight="bold">
-            Total: ${(Math.round(total)/ 100).toFixed(2)}
+            Total: ${total.toFixed(2)}
           </Typography>
         </Grid>
       ) : (
